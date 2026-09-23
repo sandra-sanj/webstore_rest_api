@@ -1,25 +1,33 @@
 package fi.metropolia.sandraj.webstore.customers;
 
+import fi.metropolia.sandraj.webstore.orders.Orders;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "customers")
 public class Customers {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="first_name", length=100, nullable=false)
+    @Column(name = "first_name", length = 100, nullable = false)
     private String firstName;
 
-    @Column(name="last_name", length=100, nullable=false)
+    @Column(name = "last_name", length = 100, nullable = false)
     private String lastName;
 
-    @Column(length=255, nullable=false)
+    @Column(length = 255, nullable = false)
     private String email;
 
-    @Column(length=30, nullable=false)
+    @Column(length = 30)
     private String phone;
+
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private List<Orders> orders = new ArrayList<>();
 
     public Customers() {
     }
@@ -29,6 +37,10 @@ public class Customers {
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getFirstName() {
@@ -61,5 +73,14 @@ public class Customers {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public List<Orders> orders() {
+        return orders;
+    }
+
+    public void addOrders(Orders order) {
+        this.orders.add(order);
+        order.setCustomer(this);
     }
 }
