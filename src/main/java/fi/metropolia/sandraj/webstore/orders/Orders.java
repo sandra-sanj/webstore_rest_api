@@ -4,11 +4,13 @@ import fi.metropolia.sandraj.webstore.customeraddresses.CustomerAddresses;
 import fi.metropolia.sandraj.webstore.customers.Customers;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "orders")
+@DynamicUpdate
 public class Orders {
 
     @Id

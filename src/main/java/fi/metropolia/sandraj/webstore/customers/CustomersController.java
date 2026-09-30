@@ -37,4 +37,9 @@ public class CustomersController {
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @PostMapping("/company")
+    public ResponseEntity<CompanyCustomers> createCompanyCustomer(@RequestBody CompanyCustomers customer) {
+        return ResponseEntity.status(201).body(this.repository.save(customer));
+    }
 }
