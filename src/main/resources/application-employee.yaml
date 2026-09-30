@@ -1,0 +1,9 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+  datasource:
+    url: jdbc:mariadb://localhost:3306/webstore
+    username: webstore_employee
+    password: ${WEBSTORE_EMPLOYEE_PASSWORD}
