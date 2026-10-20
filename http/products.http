@@ -1,0 +1,71 @@
+
+### 1. Get all products
+GET http://localhost:8080/products
+
+> {%
+    client.log(JSON.stringify(response.body, null, 2));
+    client.global.set("productId", response.body[0].id);
+%}
+
+### 2. Get product by id
+GET http://localhost:8080/products/{{productId}}
+
+> {%
+    client.log(JSON.stringify(response.body, null, 2));
+%}
+
+### 3. Search products by name
+GET http://localhost:8080/products?name=widget
+
+> {%
+    client.log(JSON.stringify(response.body, null, 2));
+%}
+
+### 4. Search products by category id
+GET http://localhost:8080/products?categoryId=3
+
+> {%
+    client.log(JSON.stringify(response.body, null, 2));
+%}
+
+### 5. Search products by price
+GET http://localhost:8080/products?minPrice=100&maxPrice=500
+
+> {%
+    client.log(JSON.stringify(response.body, null, 2));
+%}
+
+### 6. Search products by availability
+GET http://localhost:8080/products?inStock=true
+
+> {%
+    client.log(JSON.stringify(response.body, null, 2));
+%}
+
+### 7. Search products with all filters
+GET http://localhost:8080/products?name=widget&categoryId=3&minPrice=100&maxPrice=500&inStock=true
+
+> {%
+    client.log(JSON.stringify(response.body, null, 2));
+%}
+
+### 8. Product with a past price shows todays price
+GET http://localhost:8080/products/1
+
+> {%
+    client.log(JSON.stringify(response.body, null, 2));
+%}
+
+### 9. Product with a future price shows todays price
+GET http://localhost:8080/products/5
+
+> {%
+    client.log(JSON.stringify(response.body, null, 2));
+%}
+
+### 10. Discontinued product not found
+GET http://localhost:8080/products/6
+
+> {%
+    client.log(response.status);
+%}

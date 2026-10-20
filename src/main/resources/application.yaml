@@ -13,6 +13,6 @@ spring:
     name: webstore
   
   datasource:
-    url: jdbc:mariadb://localhost:3306/webstore
+    url: jdbc:mariadb://localhost:3306/${WEBSTORE_DB:webstore}
     username: webstore_user
     password: ${WEBSTORE_USER_PASSWORD}

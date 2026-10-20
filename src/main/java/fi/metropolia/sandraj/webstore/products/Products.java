@@ -1,6 +1,7 @@
 package fi.metropolia.sandraj.webstore.products;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import fi.metropolia.sandraj.webstore.productcategories.ProductCategories;
 import fi.metropolia.sandraj.webstore.suppliers.Suppliers;
 import jakarta.persistence.*;
 import org.hibernate.annotations.DynamicUpdate;
@@ -37,6 +38,11 @@ public class Products {
 
     private LocalDate startdate = LocalDate.now();
     private LocalDate enddate = LocalDate.of(2100, 12, 31);
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    @JsonIgnore
+    private ProductCategories category;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JsonIgnore
@@ -99,6 +105,10 @@ public class Products {
 
     public LocalDate getEnddate() {
         return enddate;
+    }
+
+    public Integer getCategoryId() {
+        return category != null ? category.getId() : null;
     }
 
     public Set<Suppliers> getSuppliers() {

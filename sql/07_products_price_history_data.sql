@@ -1,0 +1,14 @@
+UPDATE products FOR PORTION OF valid_time FROM '2026-09-01' TO '2026-09-30'
+SET price = 18.99
+WHERE id = 1;
+
+UPDATE products FOR PORTION OF valid_time FROM DATE_SUB(CURDATE(), INTERVAL 7 DAY) TO DATE_ADD(CURDATE(), INTERVAL 30 DAY)
+SET price = 299.99
+WHERE id = 4;
+
+UPDATE products FOR PORTION OF valid_time FROM DATE_ADD(CURDATE(), INTERVAL 30 DAY) TO '2100-12-31'
+SET price = 749.10
+WHERE id = 5;
+
+UPDATE products SET enddate = CURDATE()
+WHERE id = 6 AND startdate <= CURDATE() AND enddate > CURDATE();

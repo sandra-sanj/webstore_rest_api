@@ -1,0 +1,80 @@
+
+### 1. Create new customer
+POST http://localhost:8080/customers
+Content-Type: application/json
+
+{
+  "firstName": "Test",
+  "lastName": "Customer",
+  "email": "test.customer@example.com",
+  "phone": "0401234567"
+}
+
+> {%
+    client.log(JSON.stringify(response.body, null, 2));
+    client.global.set("customerId", response.body.id);
+%}
+
+### 2. Get customer info
+GET http://localhost:8080/customers/{{customerId}}
+
+> {%
+    client.log(JSON.stringify(response.body, null, 2));
+%}
+
+### 3. Update customer info (name, phone, email)
+PUT http://localhost:8080/customers/{{customerId}}
+Content-Type: application/json
+
+{
+  "firstName": "Updated",
+  "lastName": "Customer",
+  "email": "updated.customer@example.com",
+  "phone": "0507654321"
+}
+
+> {%
+    client.log(JSON.stringify(response.body, null, 2));
+%}
+
+### 4. Create new company customer
+POST http://localhost:8080/customers/company
+Content-Type: application/json
+
+{
+  "firstName": "Test",
+  "lastName": "Contact",
+  "email": "test.contact@example.com",
+  "phone": "0401112233",
+  "companyName": "Test Company Oy",
+  "companyId": "1234567-8"
+}
+
+> {%
+    client.log(JSON.stringify(response.body, null, 2));
+    client.global.set("companyCustomerId", response.body.id);
+%}
+
+### 5. Get company customer info
+GET http://localhost:8080/customers/{{companyCustomerId}}
+
+> {%
+    client.log(JSON.stringify(response.body, null, 2));
+%}
+
+### 6. Update company customer info (name, phone, company name)
+PUT http://localhost:8080/customers/company/{{companyCustomerId}}
+Content-Type: application/json
+
+{
+  "firstName": "Updated",
+  "lastName": "Contact",
+  "email": "test.contact@example.com",
+  "phone": "0509998877",
+  "companyName": "Updated Company Oy",
+  "companyId": "1234567-8"
+}
+
+> {%
+    client.log(JSON.stringify(response.body, null, 2));
+%}

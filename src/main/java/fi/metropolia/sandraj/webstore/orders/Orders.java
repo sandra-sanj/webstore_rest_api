@@ -1,17 +1,23 @@
 package fi.metropolia.sandraj.webstore.orders;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fi.metropolia.sandraj.webstore.customeraddresses.CustomerAddresses;
 import fi.metropolia.sandraj.webstore.customers.Customers;
+import fi.metropolia.sandraj.webstore.orderitems.OrderItems;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
 @DynamicUpdate
 public class Orders {
+
+    public enum Status { NEW, SHIPPED, CANCELLED }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,10 +36,15 @@ public class Orders {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shipping_address_id")
+    @JsonIgnore
     private CustomerAddresses shippingAddress;
 
+    @Enumerated(EnumType.STRING)
     @Column(length = 50)
-    private String status = "NEW";
+    private Status status = Status.NEW;
+
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private List<OrderItems> items = new ArrayList<>();
 
     public Orders () {}
 
@@ -78,11 +89,24 @@ public class Orders {
         this.shippingAddress = shippingAddress;
     }
 
-    public String getStatus() {
+    public Integer getShippingAddressId() {
+        return shippingAddress != null ? shippingAddress.getId() : null;
+    }
+
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public List<OrderItems> items() {
+        return items;
+    }
+
+    public void addItem(OrderItems item) {
+        this.items.add(item);
+        item.setOrder(this);
     }
 }

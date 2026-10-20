@@ -15,7 +15,7 @@ public class CustomersController {
     @GetMapping("/{id}")
     public ResponseEntity<Customers> getCustomerById(@PathVariable Integer id) {
         return this.repository.findById(id)
-                .map(customer -> ResponseEntity.ok(customer))
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
@@ -41,5 +41,24 @@ public class CustomersController {
     @PostMapping("/company")
     public ResponseEntity<CompanyCustomers> createCompanyCustomer(@RequestBody CompanyCustomers customer) {
         return ResponseEntity.status(201).body(this.repository.save(customer));
+    }
+
+    @PutMapping("/company/{id}")
+    public ResponseEntity<CompanyCustomers> updateCompanyCustomer(
+            @PathVariable Integer id, @RequestBody CompanyCustomers update)
+    {
+        return this.repository.findById(id)
+                .filter(customer -> customer instanceof CompanyCustomers)
+                .map(customer -> {
+                    CompanyCustomers company = (CompanyCustomers) customer;
+                    company.setFirstName(update.getFirstName());
+                    company.setLastName(update.getLastName());
+                    company.setEmail(update.getEmail());
+                    company.setPhone(update.getPhone());
+                    company.setCompanyName(update.getCompanyName());
+                    company.setCompanyId(update.getCompanyId());
+                    return ResponseEntity.ok(this.repository.save(company));
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 }

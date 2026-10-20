@@ -40,6 +40,14 @@ public class Customers {
         this.phone = phone;
     }
 
+    @PrePersist
+    @PreUpdate
+    private void normalizeEmail() {
+        if (email != null) {
+            email = email.trim().toLowerCase();
+        }
+    }
+
     public int getId() {
         return id;
     }

@@ -1,5 +1,6 @@
 package fi.metropolia.sandraj.webstore.customeraddresses;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fi.metropolia.sandraj.webstore.customers.Customers;
 import jakarta.persistence.*;
 
@@ -13,6 +14,7 @@ public class CustomerAddresses {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false)
+    @JsonIgnore
     private Customers customer;
 
     @Column(name = "street_address", length = 255, nullable = false)
@@ -47,6 +49,10 @@ public class CustomerAddresses {
 
     public void setCustomer(Customers customer) {
         this.customer = customer;
+    }
+
+    public Integer getCustomerId() {
+        return customer != null ? customer.getId() : null;
     }
 
     public String getStreetAddress() {

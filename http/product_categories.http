@@ -1,0 +1,22 @@
+
+### 1. Get categories
+GET http://localhost:8080/categories
+
+> {%
+    client.log(JSON.stringify(response.body, null, 2));
+    client.global.set("categoryId", response.body[0].id);
+%}
+
+### 2. Get category by id
+GET http://localhost:8080/categories/{{categoryId}}
+
+> {%
+    client.log(JSON.stringify(response.body, null, 2));
+%}
+
+### 3. Get category products
+GET http://localhost:8080/categories/{{categoryId}}/products
+
+> {%
+    client.log(JSON.stringify(response.body, null, 2));
+%}

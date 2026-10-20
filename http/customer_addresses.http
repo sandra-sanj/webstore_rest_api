@@ -1,0 +1,74 @@
+
+### 1. Get first customer
+GET http://localhost:8080/customers/1
+
+> {%
+    client.log(JSON.stringify(response.body, null, 2));
+    client.global.set("customerId", response.body.id);
+%}
+
+### 2. Get customer addresses
+GET http://localhost:8080/customers/{{customerId}}/addresses
+
+> {%
+    client.log(JSON.stringify(response.body, null, 2));
+%}
+
+### 3. Add address to customer
+POST http://localhost:8080/customers/{{customerId}}/addresses
+Content-Type: application/json
+
+{
+  "streetAddress": "Test Street 1",
+  "postalCode": "00100",
+  "city": "Helsinki",
+  "country": "Finland"
+}
+
+> {%
+    client.log(JSON.stringify(response.body, null, 2));
+    client.global.set("addressId", response.body.id);
+%}
+
+### 4. Get customer addresses
+GET http://localhost:8080/customers/{{customerId}}/addresses
+
+> {%
+    client.log(JSON.stringify(response.body, null, 2));
+%}
+
+### 5. Get customer's first address
+GET http://localhost:8080/customers/{{customerId}}/address
+
+> {%
+    client.log(JSON.stringify(response.body, null, 2));
+%}
+
+### 6. Get address by id
+GET http://localhost:8080/addresses/{{addressId}}
+
+> {%
+    client.log(JSON.stringify(response.body, null, 2));
+%}
+
+### 7. Update address info
+PUT http://localhost:8080/addresses/{{addressId}}
+Content-Type: application/json
+
+{
+  "streetAddress": "Test Street 2",
+  "postalCode": "00200",
+  "city": "Espoo",
+  "country": "Finland"
+}
+
+> {%
+    client.log(JSON.stringify(response.body, null, 2));
+%}
+
+### 8. Get customer addresses. Verify modified address info
+GET http://localhost:8080/customers/{{customerId}}/addresses
+
+> {%
+    client.log(JSON.stringify(response.body, null, 2));
+%}

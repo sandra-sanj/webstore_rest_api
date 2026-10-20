@@ -40,10 +40,17 @@ public class CustomerAddressesController {
         return ResponseEntity.ok(repository.findByCustomer_Id(customerId));
     }
 
+    @GetMapping("/customers/{customerId}/address")
+    public ResponseEntity<CustomerAddresses> getFirstAddressForCustomer(@PathVariable Integer customerId) {
+        return repository.findFirstByCustomer_IdOrderById(customerId)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     @GetMapping("/addresses/{id}")
     public ResponseEntity<CustomerAddresses> getAddressById(@PathVariable Integer id) {
         return repository.findById(id)
-                .map(address -> ResponseEntity.ok(address))
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
@@ -60,18 +67,5 @@ public class CustomerAddressesController {
                     return ResponseEntity.ok(repository.save(address));
                 })
                 .orElse(ResponseEntity.notFound().build());
-    }
-
-    @DeleteMapping("/addresses/{id}")
-    public ResponseEntity<Void> deleteAddress(@PathVariable Integer id) {
-        if (!repository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        try {
-            repository.deleteById(id);
-            return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
     }
 }

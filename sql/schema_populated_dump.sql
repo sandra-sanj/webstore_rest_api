@@ -2000096,9 +2000096,8 @@ CREATE TABLE IF NOT EXISTS `products` (
   KEY `fk_product_category` (`category_id`),
   KEY `fk_product_supplier` (`supplier_id`),
   CONSTRAINT `fk_product_category` FOREIGN KEY (`category_id`) REFERENCES `productcategories` (`id`),
-  CONSTRAINT `fk_product_supplier` FOREIGN KEY (`supplier_id`) REFERENCES `suppliers` (`id`),
-  PERIOD FOR valid_time(startdate, enddate)
-) ENGINE=InnoDB AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci WITH SYSTEM VERSIONING;;
+  CONSTRAINT `fk_product_supplier` FOREIGN KEY (`supplier_id`) REFERENCES `suppliers` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table webstore.products: ~1 000 rows (suunnilleen)
 INSERT INTO `products` (`id`, `name`, `description`, `price`, `stock_quantity`, `category_id`, `supplier_id`) VALUES

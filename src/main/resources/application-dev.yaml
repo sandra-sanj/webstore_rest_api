@@ -4,6 +4,6 @@ spring:
       ddl-auto: update
 
   datasource:
-    url: jdbc:mariadb://localhost:3306/webstore
+    url: jdbc:mariadb://localhost:3306/${WEBSTORE_DB:webstore}
     username: webstore_admin
     password: ${WEBSTORE_ADMIN_PASSWORD}
